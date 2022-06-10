@@ -3,10 +3,6 @@ import { galleryItems } from "./gallery-items.js";
 const gallery = document.querySelector(".gallery");
 gallery.addEventListener("click", openItem);
 // window.addEventListener("keydown", removebasicLightbox);
-//generate all item
-const galeryObjectHtml = function createGalery(images) {
-  return images.map(createItemGalery);
-};
 
 //create item
 function createItemGalery(im) {
@@ -36,7 +32,7 @@ function openItem(e) {
   }
   const instance = basicLightbox.create(
     `
-    <img src=${e.target.src} width="800" height="600">
+    <img src=${e.target.src} width="2400px" height="1800px">
 `,
     {
       onShow: (instance) => {
@@ -53,7 +49,8 @@ function openItem(e) {
 }
 
 //added o html
-gallery.append(...galeryObjectHtml(galleryItems));
+
+gallery.append(...galleryItems.map(createItemGalery));
 
 //  galleryItems и предоставленному шаблону элемента галереи.
 
