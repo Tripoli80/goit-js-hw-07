@@ -2,25 +2,17 @@ import { galleryItems } from "./gallery-items.js";
 // get link gallery
 const gallery = document.querySelector(".gallery");
 gallery.addEventListener("click", openItem);
+
+//added to html
+gallery.innerHTML = galleryItems.map(createItemGalery).join("");
+
 //create item
-function createItemGalery(im) {
-  const { preview, original, description } = im;
-  const item = document.createElement("div");
-  const link = document.createElement("a");
-  const image = document.createElement("img");
-
-  item.classList.add("gallery__item");
-  link.classList.add("gallery__link");
-  image.classList.add("gallery__image");
-
-  link.href = original;
-  image.src = preview;
-  image.dataset.source = original;
-  image.alt = description;
-
-  link.append(image);
-  item.append(link);
-  return item;
+function createItemGalery({
+  preview: previewLink,
+  original: originalLink,
+  description: descriptionImage,
+}) {
+  return `<div class="gallery__item"><a class="gallery__link" href= ${originalLink}> <img class="gallery__image" src=${previewLink} data-source=${originalLink} alt=${descriptionImage}/></a></div>`;
 }
 
 function openItem(e) {
@@ -29,12 +21,11 @@ function openItem(e) {
     return;
   }
   const instance = basicLightbox.create(
-    `
-    <img src=${e.target.src} width="2400px" height="1800px">`,
+    `<img src=${e.target.src} class ="gallery__image-big" >`,
     {
       onShow: (instance) => {
         window.addEventListener("keydown", (event) => {
-          if (event.key === "Escape") {
+          if (event.key.toLocaleLowerCase() === "Escape".toLocaleLowerCase()) {
             instance.close();
           }
         });
@@ -44,11 +35,7 @@ function openItem(e) {
 
   instance.show();
 }
-//added o html
-gallery.append(...galleryItems.map(createItemGalery));
-
 //  galleryItems и предоставленному шаблону элемента галереи.
-
 // Реализация делегирования на div.gallery и получение url большого изображения.
 // Подключение скрипта и стилей библиотеки модального окна basicLightbox. Используй CDN сервис jsdelivr и добавь в проект ссылки на минифицированные (.min) файлы библиотеки.
 // Открытие модального окна по клику на элементе галереи. Для этого ознакомься с документацией и примерами.
